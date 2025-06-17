@@ -63,4 +63,33 @@ class AQIFeaturePipeline:
         })
 
         return features 
-        
+    
+    def create_targets(self, df):
+        """Create target variable (AQI for the next 1, 2, 3, days)"""
+        df = df.sort_values('timestamp')
+        df['aqi_next_1d'] = df['aqi'].shift(-24) 
+        df['aqi_next_2d'] = df['aqi'].shift(-48)
+        df['aqi_next_3d'] = df['aqi'].shift(-72)    
+        return df 
+
+    def save_to_feature_store(self, features_df):
+        """Saves Features to Hopworks Feature Store"""
+        try: 
+            project = hopsworks.login(
+                api_key_value = os.getenv("HOPSWORKS_API_KEY")
+            )   
+            fs = project.get_feature_store()
+
+            aqi_fg = fs.get_or_create_feature_group(
+                name = "aqi_features",
+                version = 1, 
+                primary_key = ['timestamp', 'city'],
+                description = "Air Quality Index features and targets"
+            ) 
+            aqi_fg.insert(features_df)
+            print(f"Saved {len(features_df)} records to feature store")
+        except Exception as e: 
+            print(f"Error saving to feature store: {e}")
+            # Fallback: Save data locally as backup if feature store fails 
+            features_df.to_csv('data/aqi_features.csv', index=False) 
+            print("Saved data locally as fallback")
