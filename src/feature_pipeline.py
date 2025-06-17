@@ -28,3 +28,39 @@ class AQIFeaturePipeline:
             print(f"Error fetching data: {e}")
             return None
         
+    def extract_features(self, raw_data):
+        """Extract and engineer features from raw API data"""
+        if not raw_data:
+            return None 
+        iaqi = raw_data.get("iaqi", {})
+        features = {
+            'timestamp': datetime.now(),
+            'city': raw_data.get('city', {}).get('name', self.city),
+            'aqi': raw_data.get('aqi', np.nan),
+            
+            # Pollutant measurements
+            'pm25': iaqi.get('pm25', {}).get('v', np.nan),
+            'pm10': iaqi.get('pm10', {}).get('v', np.nan),
+            'o3': iaqi.get('o3', {}).get('v', np.nan),
+            'no2': iaqi.get('no2', {}).get('v', np.nan),
+            'so2': iaqi.get('so2', {}).get('v', np.nan),
+            'co': iaqi.get('co', {}).get('v', np.nan),
+            
+            # Weather data
+            'temperature': iaqi.get('t', {}).get('v', np.nan),
+            'humidity': iaqi.get('h', {}).get('v', np.nan),
+            'pressure': iaqi.get('p', {}).get('v', np.nan),
+            'wind_speed': iaqi.get('w', {}).get('v', np.nan),
+        }
+
+        # Time-based features 
+        dt = features['timestamp']
+        features.update({
+            'hour': dt.hour,
+            'day_of_week': dt.weekday(),
+            'month': dt.month,
+            'is_weekend': dt.weekday() >= 5
+        })
+
+        return features 
+        
