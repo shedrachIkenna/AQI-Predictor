@@ -1,0 +1,111 @@
+/model
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
+
+# Dependency directories
+node_modules/
+jspm_packages/
+bower_components/
+
+# Build outputs
+dist/
+build/
+out/
+.next/
+
+# Coverage and test directories
+coverage/
+.nyc_output/
+.jest/
+.coverage/
+
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+develop-eggs/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+venv_assistant
+venv/
+ENV/
+.pytest_cache/
+
+# Java
+*.class
+*.jar
+*.war
+*.ear
+.gradle/
+target/
+.idea/
+.vscode/
+*.iml
+*.iws
+*.ipr
+
+# Ruby
+*.gem
+.bundle/
+vendor/bundle
+.ruby-version
+.ruby-gemset
+
+# Editors and IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
+.c9/
+
+# Mobile development
+.ios/
+.android/
+.expo/
+
+# Miscellaneous
+.cache/
+.temp/
+.tmp/
+tmp/
+temp/
