@@ -11,7 +11,7 @@ load_dotenv()
 class AQIFeaturePipeline:
     def __init__(self, city="barcelona"):
         self.city = city
-        self.base_url = f"https://api.wapi.info/feed/{city}/"
+        self.base_url = f"https://api.waqi.info/feed/{city}/"
         self.api_key = os.getenv("WAQI_API_KEY")
 
     def fetch_aqi_data(self, date=None):
@@ -89,6 +89,9 @@ class AQIFeaturePipeline:
         except Exception as e: 
             print(f"Error saving to feature store: {e}")
             # Fallback: Save data locally as backup if feature store fails 
+            output_dir = 'data'
+            if not os.path.exists(output_dir):
+                os.makedirs(output_dir) 
             features_df.to_csv('data/aqi_features.csv', index=False) 
             print("Saved data locally as fallback")
 
@@ -108,4 +111,4 @@ class AQIFeaturePipeline:
 
 if __name__ == "__main__":
     pipeline = AQIFeaturePipeline()
-    pipeline.run_pipeline
+    pipeline.run_pipeline()
