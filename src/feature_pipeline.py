@@ -75,9 +75,7 @@ class AQIFeaturePipeline:
     def save_to_feature_store(self, features_df):
         """Saves Features to Hopworks Feature Store"""
         try: 
-            project = hopsworks.login(
-                api_key_value = os.getenv("HOPSWORKS_API_KEY")
-            )   
+            project = hopsworks.login()   
             fs = project.get_feature_store()
 
             aqi_fg = fs.get_or_create_feature_group(
@@ -93,3 +91,21 @@ class AQIFeaturePipeline:
             # Fallback: Save data locally as backup if feature store fails 
             features_df.to_csv('data/aqi_features.csv', index=False) 
             print("Saved data locally as fallback")
+
+    def run_pipeline(self):
+        """Execute the complete feature pipeline"""
+        print("Starting Feature Pipeline")
+        raw_data = self.fetch_aqi_data()
+        if raw_data:
+            features = self.extract_features(raw_data)
+            features_df = pd.DataFrame([features])
+            self.save_to_feature_store(features_df)
+            print("Feature pipeline completed successfully")
+            return features_df
+        else:
+            print("Failed to fetch data")
+            return None 
+
+if __name__ == "__main__":
+    pipeline = AQIFeaturePipeline()
+    pipeline.run_pipeline
