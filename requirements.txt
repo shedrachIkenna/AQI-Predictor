@@ -3,7 +3,7 @@ pandas
 numpy
 scikit-learn
 xgboost
-hopsworks
+hopsworks>=3.8.0
 streamlit
 python-dotenv
 cement==2.10.14
