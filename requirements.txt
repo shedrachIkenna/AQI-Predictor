@@ -6,3 +6,4 @@ xgboost
 hopsworks
 streamlit
 python-dotenv
+cement==2.10.14
